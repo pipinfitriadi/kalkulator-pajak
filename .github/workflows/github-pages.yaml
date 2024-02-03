@@ -19,7 +19,7 @@ jobs:
     name: Deploy Website
     environment:
       name: github-pages
-      url: ${{ steps.website.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -31,5 +31,5 @@ jobs:
         with:
           path: src/
       - name: Deploy to GitHub Pages
-        id: website
+        id: deployment
         uses: actions/deploy-pages@v4
