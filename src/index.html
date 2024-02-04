@@ -328,14 +328,17 @@ project root for license information. -->
                         elem.penghasilanBrutoBulanan >= gajiGross
                 ),
                 pajakJanNov = Math.round(gajiGross * foundElem.tarifPajak),
-                pajakDes = Math.round(
-                    pajakPenghasilanPasal21(
-                        gajiGross * 12 
-                        - penghasilanTidakKenaPajak[
-                            form.elements.statusKawinTanggungan.value
-                        ]
+                pajakDes = Math.max(
+                    0,
+                    Math.round(
+                        pajakPenghasilanPasal21(
+                            gajiGross * 12 
+                            - penghasilanTidakKenaPajak[
+                                form.elements.statusKawinTanggungan.value
+                            ]
+                        )
+                        - pajakJanNov * 11
                     )
-                    - pajakJanNov * 11
                 ),
                 gajiNettJanNov = gajiGross - pajakJanNov,
                 gajiNettDes = gajiGross - pajakDes;
