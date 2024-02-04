@@ -24,6 +24,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Minify Website
+        uses: docker://devatherock/minify-js:3.0.0
+        with:
+          directory: src/
+          add_suffix: false
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
