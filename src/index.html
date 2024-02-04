@@ -9,8 +9,132 @@ project root for license information. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalkulator Pajak</title>
     <link rel="icon" type="image/x-icon" href="/kalkulator-pajak/favicon.ico"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
 </head>
-<body>
-    <h1>Kalkulator Pajak</h1>
+<body class="p-2">
+    <h1 class="text-center">Kalkulator Pajak</h1>
+    <form class="mb-2">
+        <div class="input-group mb-2">
+            <span class="input-group-text">Rp</span>
+            <div class="form-floating">
+                <input type="number" min="1" step="1" class="form-control" name="gaji" id="gaji" value="1"/>
+                <label for="gaji">Gaji per bulan (<i>gross</i>)</label>
+            </div>
+        </div>
+        <div class="form-floating mb-2">
+            <select class="form-select" name="statusKawinTanggungan" id="statusKawinTanggungan">
+                <optgroup label="Tidak Kawin">
+                    <option value="TK-0">Tidak Kawin Tanpa Tanggungan</option>
+                    <option value="TK-1">Tidak Kawin Tanggungan 1 orang</option>
+                    <option value="TK-2">Tidak Kawin Tanggungan 2 orang</option>
+                    <option value="TK-3">Tidak Kawin Tanggungan 3 orang</option>
+                </optgroup>
+                <optgroup label="Kawin">
+                    <option value="K-0">Kawin Tanpa Tanggungan</option>
+                    <option value="K-1">Kawin Tanggungan 1 orang</option>
+                    <option value="K-2">Kawin Tanggungan 2 orang</option>
+                    <option value="K-3">Kawin Tanggungan 3 orang</option>
+                </optgroup>
+            </select>
+            <label for="statusKawinTanggungan">Status Perkawinan dan Jumlah Tanggungan</label>
+        </div>
+        <div class="btn-group d-flex justify-content-center" role="group">
+            <input class="btn btn-outline-secondary" type="reset" value="Reset"/>
+            <button class="btn btn-outline-success" type="submit">
+                <i class="bi bi-calculator"></i>
+                Hitung
+            </button>
+        </div>
+    </form>
+    <table class="table table-sm table-hover table-striped visually-hidden">
+        <thead class="">
+            <tr>
+                <th scope="col">Bulan</th>
+                <th scope="col">Pajak</th>
+                <th scope="col">Gaji (<i>nett</i>)</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            <tr>
+                <td>Januari</td>
+                <td class="text-end"></td>
+                <td class="text-end"></td>
+            </tr>
+            <tr>
+                <td>Februari</td>
+                <td class="text-end"></td>
+                <td class="text-end"></td>
+            </tr>
+            <tr>
+                <td>Maret</td>
+                <td class="text-end"></td>
+                <td class="text-end"></td>
+            </tr>
+            <tr>
+                <td>April</td>
+                <td class="text-end"></td>
+                <td class="text-end"></td>
+            </tr>
+            <tr>
+                <td>Mei</td>
+                <td class="text-end"></td>
+                <td class="text-end"></td>
+            </tr>
+            <tr>
+                <td>Juni</td>
+                <td class="text-end"></td>
+                <td class="text-end"></td>
+            </tr>
+            <tr>
+                <td>Juli</td>
+                <td class="text-end"></td>
+                <td class="text-end"></td>
+            </tr>
+            <tr>
+                <td>Agustus</td>
+                <td class="text-end"></td>
+                <td class="text-end"></td>
+            </tr>
+            <tr>
+                <td>September</td>
+                <td class="text-end"></td>
+                <td class="text-end"></td>
+            </tr>
+            <tr>
+                <td>Oktober</td>
+                <td class="text-end"></td>
+                <td class="text-end"></td>
+            </tr>
+            <tr>
+                <td>Nopember</td>
+                <td class="text-end"></td>
+                <td class="text-end"></td>
+            </tr>
+        </tbody>
+        <tfoot class="table-warning table-group-divider">
+            <tr>
+                <th>Desember</th>
+                <th class="text-end"></th>
+                <th class="text-end"></th>
+            </tr>
+        </tfoot>
+    </table>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script>
+        const
+            form = document.getElementsByTagName('form')[0],
+            table = document.getElementsByTagName('table')[0];
+
+        form.onsubmit = function(event) {
+            event.preventDefault();
+            table.classList.remove('visually-hidden');
+            return false;
+        }
+        form.onreset = function(event) {
+            table.classList.add('visually-hidden');
+            return true;
+        }
+    </script>
 </body>
 </html>
