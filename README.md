@@ -13,4 +13,6 @@ project root for license information.
 Referensi:
 
 - [PP Nomor 58 Tahun 2023](https://peraturan.bpk.go.id/Details/274247/pp-no-58-tahun-2023)
+- [UU Nomor 7 Tahun 2021](https://peraturan.bpk.go.id/Details/185162/uu-no-7-tahun-2021)
 - [UU Nomor 36 Tahun 2008](https://peraturan.bpk.go.id/Details/39704/uu-no-36-tahun-2008)
+- [PTKP 2024 Bagi Wajib Pajak: Simak Aturan Terbarunya](https://www.pajakku.com/read/633e8168b577d80e80bb2f17/PTKP-2024-Bagi-Wajib-Pajak:-Simak-Aturan-Terbarunya-)
