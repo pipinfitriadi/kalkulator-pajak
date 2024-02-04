@@ -48,11 +48,11 @@ project root for license information. -->
         </div>
     </form>
     <table class="table table-sm table-hover table-striped visually-hidden">
-        <thead class="">
+        <thead>
             <tr>
-                <th scope="col">Bulan</th>
-                <th scope="col">Pajak</th>
-                <th scope="col">Gaji (<i>nett</i>)</th>
+                <th scope="col" class="text-center">Bulan</th>
+                <th scope="col" class="text-center">Pajak</th>
+                <th scope="col" class="text-center">Gaji (<i>nett</i>)</th>
             </tr>
         </thead>
         <tbody class="table-group-divider">
@@ -122,17 +122,202 @@ project root for license information. -->
     </table>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script>
+        class TarifEfektifBulanan {
+            constructor(penghasilanBrutoBulanan, tarifPajak) {
+                this.penghasilanBrutoBulanan = penghasilanBrutoBulanan;
+                this.tarifPajak = tarifPajak;
+            }
+        }
+          
         const
             form = document.getElementsByTagName('form')[0],
-            table = document.getElementsByTagName('table')[0];
+            table = document.getElementsByTagName('table')[0],
+            kategoriA = [
+                new TarifEfektifBulanan(5400000, 0/100),
+                new TarifEfektifBulanan(5650000, 0.25/100),
+                new TarifEfektifBulanan(5950000, 0.5/100),
+                new TarifEfektifBulanan(6300000, 0.75/100),
+                new TarifEfektifBulanan(6750000, 1/100),
+                new TarifEfektifBulanan(7500000, 1.25/100),
+                new TarifEfektifBulanan(8550000, 1.5/100),
+                new TarifEfektifBulanan(9650000, 1.75/100),
+                new TarifEfektifBulanan(10050000, 2/100),
+                new TarifEfektifBulanan(10350000, 2.25/100),
+                new TarifEfektifBulanan(10700000, 2.5/100),
+                new TarifEfektifBulanan(11050000, 3/100),
+                new TarifEfektifBulanan(11600000, 3.5/100),
+                new TarifEfektifBulanan(12500000, 4/100),
+                new TarifEfektifBulanan(13750000, 5/100),
+                new TarifEfektifBulanan(15100000, 6/100),
+                new TarifEfektifBulanan(16950000, 7/100),
+                new TarifEfektifBulanan(19750000, 8/100),
+                new TarifEfektifBulanan(24150000, 9/100),
+                new TarifEfektifBulanan(26450000, 10/100),
+                new TarifEfektifBulanan(28000000, 11/100),
+                new TarifEfektifBulanan(30050000, 12/100),
+                new TarifEfektifBulanan(32400000, 13/100),
+                new TarifEfektifBulanan(35400000, 14/100),
+                new TarifEfektifBulanan(39100000, 15/100),
+                new TarifEfektifBulanan(43850000, 16/100),
+                new TarifEfektifBulanan(47800000, 17/100),
+                new TarifEfektifBulanan(51400000, 18/100),
+                new TarifEfektifBulanan(56300000, 19/100),
+                new TarifEfektifBulanan(62200000, 20/100),
+                new TarifEfektifBulanan(68600000, 21/100),
+                new TarifEfektifBulanan(77500000, 22/100),
+                new TarifEfektifBulanan(89000000, 23/100),
+                new TarifEfektifBulanan(103000000, 24/100),
+                new TarifEfektifBulanan(125000000, 25/100),
+                new TarifEfektifBulanan(157000000, 26/100),
+                new TarifEfektifBulanan(206000000, 27/100),
+                new TarifEfektifBulanan(337000000, 28/100),
+                new TarifEfektifBulanan(454000000, 29/100),
+                new TarifEfektifBulanan(550000000, 30/100),
+                new TarifEfektifBulanan(695000000, 31/100),
+                new TarifEfektifBulanan(910000000, 32/100),
+                new TarifEfektifBulanan(1400000000, 33/100),
+                new TarifEfektifBulanan(1400000000.01, 34/100),
+            ],
+            kategoriB = [
+                new TarifEfektifBulanan(6200000, 0/100),
+                new TarifEfektifBulanan(6500000, 0.25/100),
+                new TarifEfektifBulanan(6850000, 0.5/100),
+                new TarifEfektifBulanan(7300000, 0.75/100),
+                new TarifEfektifBulanan(9200000, 1/100),
+                new TarifEfektifBulanan(10750000, 1.5/100),
+                new TarifEfektifBulanan(11250000, 2/100),
+                new TarifEfektifBulanan(11600000, 2.5/100),
+                new TarifEfektifBulanan(12600000, 3/100),
+                new TarifEfektifBulanan(13600000, 4/100),
+                new TarifEfektifBulanan(14950000, 5/100),
+                new TarifEfektifBulanan(16400000, 6/100),
+                new TarifEfektifBulanan(18450000, 7/100),
+                new TarifEfektifBulanan(21850000, 8/100),
+                new TarifEfektifBulanan(26000000, 9/100),
+                new TarifEfektifBulanan(27700000, 10/100),
+                new TarifEfektifBulanan(29350000, 11/100),
+                new TarifEfektifBulanan(31450000, 12/100),
+                new TarifEfektifBulanan(33950000, 13/100),
+                new TarifEfektifBulanan(37100000, 14/100),
+                new TarifEfektifBulanan(41100000, 15/100),
+                new TarifEfektifBulanan(45800000, 16/100),
+                new TarifEfektifBulanan(49500000, 17/100),
+                new TarifEfektifBulanan(53800000, 18/100),
+                new TarifEfektifBulanan(58500000, 19/100),
+                new TarifEfektifBulanan(64000000, 20/100),
+                new TarifEfektifBulanan(71000000, 21/100),
+                new TarifEfektifBulanan(80000000, 22/100),
+                new TarifEfektifBulanan(93000000, 23/100),
+                new TarifEfektifBulanan(109000000, 24/100),
+                new TarifEfektifBulanan(129000000, 25/100),
+                new TarifEfektifBulanan(163000000, 26/100),
+                new TarifEfektifBulanan(211000000, 27/100),
+                new TarifEfektifBulanan(374000000, 28/100),
+                new TarifEfektifBulanan(459000000, 29/100),
+                new TarifEfektifBulanan(555000000, 30/100),
+                new TarifEfektifBulanan(704000000, 31/100),
+                new TarifEfektifBulanan(957000000, 32/100),
+                new TarifEfektifBulanan(1405000000, 33/100),
+                new TarifEfektifBulanan(1405000000.01, 34/100),
+            ],
+            kategoriC = [
+                new TarifEfektifBulanan(6600000, 0/100),
+                new TarifEfektifBulanan(6950000, 0.25/100),
+                new TarifEfektifBulanan(7350000, 0.5/100),
+                new TarifEfektifBulanan(7800000, 0.75/100),
+                new TarifEfektifBulanan(8850000, 1/100),
+                new TarifEfektifBulanan(9800000, 1.25/100),
+                new TarifEfektifBulanan(10950000, 1.5/100),
+                new TarifEfektifBulanan(11200000, 1.75/100),
+                new TarifEfektifBulanan(12050000, 2/100),
+                new TarifEfektifBulanan(12950000, 3/100),
+                new TarifEfektifBulanan(14150000, 4/100),
+                new TarifEfektifBulanan(15550000, 5/100),
+                new TarifEfektifBulanan(17050000, 6/100),
+                new TarifEfektifBulanan(19500000, 7/100),
+                new TarifEfektifBulanan(22700000, 8/100),
+                new TarifEfektifBulanan(26600000, 9/100),
+                new TarifEfektifBulanan(28100000, 10/100),
+                new TarifEfektifBulanan(30100000, 11/100),
+                new TarifEfektifBulanan(32600000, 12/100),
+                new TarifEfektifBulanan(35400000, 13/100),
+                new TarifEfektifBulanan(38900000, 14/100),
+                new TarifEfektifBulanan(43000000, 15/100),
+                new TarifEfektifBulanan(47400000, 16/100),
+                new TarifEfektifBulanan(51200000, 17/100),
+                new TarifEfektifBulanan(55800000, 18/100),
+                new TarifEfektifBulanan(60400000, 19/100),
+                new TarifEfektifBulanan(66700000, 20/100),
+                new TarifEfektifBulanan(74500000, 21/100),
+                new TarifEfektifBulanan(83200000, 22/100),
+                new TarifEfektifBulanan(95600000, 23/100),
+                new TarifEfektifBulanan(110000000, 24/100),
+                new TarifEfektifBulanan(134000000, 25/100),
+                new TarifEfektifBulanan(169000000, 26/100),
+                new TarifEfektifBulanan(221000000, 27/100),
+                new TarifEfektifBulanan(390000000, 28/100),
+                new TarifEfektifBulanan(463000000, 29/100),
+                new TarifEfektifBulanan(561000000, 30/100),
+                new TarifEfektifBulanan(709000000, 31/100),
+                new TarifEfektifBulanan(965000000, 32/100),
+                new TarifEfektifBulanan(1419000000, 33/100),
+                new TarifEfektifBulanan(1419000000.01, 34/100),
+            ],
+            kategoriTarifEfektifBulanan = {
+                'TK-0': kategoriA,
+                'TK-1': kategoriA,
+                'K-0': kategoriA,
+                'TK-2': kategoriB,
+                'TK-3': kategoriB,
+                'K-1': kategoriB,
+                'K-2': kategoriB,
+                'K-3': kategoriC
+            },
+            pajakCols = document.querySelectorAll('tbody td:nth-child(2)'),
+            pajakDesCol = document.querySelector('tfoot th:nth-child(2)'),
+            gajiNettCols = document.querySelectorAll('tbody td:last-child'),
+            gajiNettDesCol = document.querySelector('tfoot th:last-child');
 
         form.onsubmit = function(event) {
             event.preventDefault();
+
+            const
+                gajiGross = parseInt(form.elements.gaji.value),
+                foundElem = kategoriTarifEfektifBulanan[
+                    form.elements.statusKawinTanggungan.value
+                ].find(
+                    (elem) =>
+                        elem.penghasilanBrutoBulanan >= gajiGross
+                ),
+                pajakJanNov = Math.round(gajiGross * foundElem.tarifPajak),
+                gajiNettJanNov = gajiGross - pajakJanNov;
+
+            pajakCols.forEach(
+                (elem) =>
+                    elem.textContent = `Rp${pajakJanNov.toLocaleString('id-ID')}`
+            );
+            // pajakDesCol.textContent = `Rp${pajakJanNov.toLocaleString('id-ID')}`;
+
+            gajiNettCols.forEach(
+                (elem) =>
+                    elem.textContent = `Rp${gajiNettJanNov.toLocaleString('id-ID')}`
+            );
+            // gajiNettDesCol.textContent = `Rp${gajiNettJanNov.toLocaleString('id-ID')}`;
+
             table.classList.remove('visually-hidden');
+
             return false;
         }
+
         form.onreset = function(event) {
             table.classList.add('visually-hidden');
+
+            pajakCols.forEach((elem) => elem.textContent = '');
+            pajakDesCol.textContent = '';
+
+            gajiNettCols.forEach((elem) => elem.textContent = '');
+            gajiNettDesCol.textContent = '';
+
             return true;
         }
     </script>
