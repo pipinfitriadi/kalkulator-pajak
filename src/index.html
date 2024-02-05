@@ -422,10 +422,12 @@ project root for license information. -->
             table.classList.add('visually-hidden');
 
             pajakCols.forEach((elem) => elem.textContent = '');
-            pajakDesCol.textContent = '';
+            pajakDesCol.innerHTML = '';
+            pajakTotalCol.textContent = '';
 
             penghasilanNettoCols.forEach((elem) => elem.textContent = '');
             penghasilanNettoDesCol.textContent = '';
+            penghasilanTotalCol.textContent = '';
 
             return true;
         }
