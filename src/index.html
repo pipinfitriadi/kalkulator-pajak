@@ -123,10 +123,15 @@ project root for license information. -->
                 <td class="text-end"></td>
                 <td class="text-end"></td>
             </tr>
+            <tr class="table-warning">
+                <td>Desember</td>
+                <td class="text-end"></td>
+                <td class="text-end"></td>
+            </tr>
         </tbody>
-        <tfoot class="table-warning table-group-divider">
+        <tfoot class="table-success table-group-divider">
             <tr>
-                <th>Desember</th>
+                <th>Total Setahun</th>
                 <th class="text-end"></th>
                 <th class="text-end"></th>
             </tr>
@@ -331,10 +336,12 @@ project root for license information. -->
                 'KI-2': 121500000,
                 'KI-3': 126000000
             },
-            pajakCols = document.querySelectorAll('tbody td:nth-child(2)'),
-            pajakDesCol = document.querySelector('tfoot th:nth-child(2)'),
-            penghasilanNettCols = document.querySelectorAll('tbody td:last-child'),
-            penghasilanNettDesCol = document.querySelector('tfoot th:last-child');
+            pajakCols = document.querySelectorAll('tbody tr:not(:last-child) td:nth-child(2)'),
+            pajakDesCol = document.querySelector('tbody tr:last-child td:nth-child(2)'),
+            pajakTotalCol = document.querySelector('tfoot th:nth-child(2)'),
+            penghasilanNettCols = document.querySelectorAll('tbody tr:not(:last-child) td:last-child'),
+            penghasilanNettDesCol = document.querySelector('tbody tr:last-child td:last-child'),
+            penghasilanTotalCol = document.querySelector('tfoot th:last-child');
 
         form.onsubmit = function(event) {
             event.preventDefault();
@@ -389,7 +396,7 @@ project root for license information. -->
                 pajakDes >= 0 ?
                 `Rp${pajakDes.toLocaleString(LOCALE_STRING)}` :
                 `
-                <button type="button" class="text-danger fw-bold btn position-relative">
+                <button type="button" class="text-danger btn position-relative">
                     -Rp${Math.abs(pajakDes).toLocaleString(LOCALE_STRING)}
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                         Kelebihan Bayar!
@@ -397,12 +404,14 @@ project root for license information. -->
                 </button>
                 `
             );
+            pajakTotalCol.textContent = `Rp${(pajakJanNov * 11 + pajakDes).toLocaleString(LOCALE_STRING)}`;
 
             penghasilanNettCols.forEach(
                 (elem) =>
                     elem.textContent = `Rp${penghasilanNettJanNov.toLocaleString(LOCALE_STRING)}`
             );
-            penghasilanNettDesCol.textContent = `Rp${(pajakDes >= 0 ? penghasilanNettDes : penghasilanBruto).toLocaleString(LOCALE_STRING)}`;
+            penghasilanNettDesCol.textContent = `Rp${penghasilanNettDes.toLocaleString(LOCALE_STRING)}`;
+            penghasilanTotalCol.textContent = `Rp${(penghasilanNettJanNov * 11 + penghasilanNettDes).toLocaleString(LOCALE_STRING)}`;
 
             table.classList.remove('visually-hidden');
 
