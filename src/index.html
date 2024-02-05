@@ -64,7 +64,7 @@ project root for license information. -->
             <tr>
                 <th scope="col" class="text-center">Bulan</th>
                 <th scope="col" class="text-center">Pajak</th>
-                <th scope="col" class="text-center">Penghasilan (<i>nett</i>)</th>
+                <th scope="col" class="text-center">Penghasilan (<i>netto</i>)</th>
             </tr>
         </thead>
         <tbody class="table-group-divider">
@@ -339,8 +339,8 @@ project root for license information. -->
             pajakCols = document.querySelectorAll('tbody tr:not(:last-child) td:nth-child(2)'),
             pajakDesCol = document.querySelector('tbody tr:last-child td:nth-child(2)'),
             pajakTotalCol = document.querySelector('tfoot th:nth-child(2)'),
-            penghasilanNettCols = document.querySelectorAll('tbody tr:not(:last-child) td:last-child'),
-            penghasilanNettDesCol = document.querySelector('tbody tr:last-child td:last-child'),
+            penghasilanNettoCols = document.querySelectorAll('tbody tr:not(:last-child) td:last-child'),
+            penghasilanNettoDesCol = document.querySelector('tbody tr:last-child td:last-child'),
             penghasilanTotalCol = document.querySelector('tfoot th:last-child');
 
         form.onsubmit = function(event) {
@@ -385,8 +385,8 @@ project root for license information. -->
                     )
                     - pajakJanNov * 11
                 ),
-                penghasilanNettJanNov = penghasilanBruto - pajakJanNov,
-                penghasilanNettDes = penghasilanBruto - pajakDes;
+                penghasilanNettoJanNov = penghasilanBruto - pajakJanNov,
+                penghasilanNettoDes = penghasilanBruto - pajakDes;
 
             pajakCols.forEach(
                 (elem) =>
@@ -406,12 +406,12 @@ project root for license information. -->
             );
             pajakTotalCol.textContent = `Rp${(pajakJanNov * 11 + pajakDes).toLocaleString(LOCALE_STRING)}`;
 
-            penghasilanNettCols.forEach(
+            penghasilanNettoCols.forEach(
                 (elem) =>
-                    elem.textContent = `Rp${penghasilanNettJanNov.toLocaleString(LOCALE_STRING)}`
+                    elem.textContent = `Rp${penghasilanNettoJanNov.toLocaleString(LOCALE_STRING)}`
             );
-            penghasilanNettDesCol.textContent = `Rp${penghasilanNettDes.toLocaleString(LOCALE_STRING)}`;
-            penghasilanTotalCol.textContent = `Rp${(penghasilanNettJanNov * 11 + penghasilanNettDes).toLocaleString(LOCALE_STRING)}`;
+            penghasilanNettoDesCol.textContent = `Rp${penghasilanNettoDes.toLocaleString(LOCALE_STRING)}`;
+            penghasilanTotalCol.textContent = `Rp${(penghasilanNettoJanNov * 11 + penghasilanNettoDes).toLocaleString(LOCALE_STRING)}`;
 
             table.classList.remove('visually-hidden');
 
@@ -424,8 +424,8 @@ project root for license information. -->
             pajakCols.forEach((elem) => elem.textContent = '');
             pajakDesCol.textContent = '';
 
-            penghasilanNettCols.forEach((elem) => elem.textContent = '');
-            penghasilanNettDesCol.textContent = '';
+            penghasilanNettoCols.forEach((elem) => elem.textContent = '');
+            penghasilanNettoDesCol.textContent = '';
 
             return true;
         }
