@@ -18,7 +18,7 @@ project root for license information. -->
         <div class="input-group mb-2">
             <span class="input-group-text">Rp</span>
             <div class="form-floating">
-                <input type="number" min="1" step="1" class="form-control" name="gaji" id="gaji" value="1"/>
+                <input type="number" min="0" step="1" class="form-control" name="gaji" id="gaji" value="0"/>
                 <label for="gaji">Gaji per bulan (<i>gross</i>)</label>
             </div>
         </div>
@@ -319,26 +319,34 @@ project root for license information. -->
         form.onsubmit = function(event) {
             event.preventDefault();
 
-            const
-                gajiGross = parseInt(form.elements.gaji.value),
-                foundElem = kategoriTarifEfektifBulanan[
+            const gajiGross = parseInt(form.elements.gaji.value);
+
+            let foundTarif = kategoriTarifEfektifBulanan[
+                form.elements.statusKawinTanggungan.value
+            ].find(
+                (elem) =>
+                    elem.penghasilanBrutoBulanan >= gajiGross
+            );
+            foundTarif = (
+                foundTarif === undefined ?
+                kategoriTarifEfektifBulanan[
                     form.elements.statusKawinTanggungan.value
-                ].find(
-                    (elem) =>
-                        elem.penghasilanBrutoBulanan >= gajiGross
-                ),
-                pajakJanNov = Math.round(gajiGross * foundElem.tarifPajak),
-                pajakDes = Math.max(
-                    0,
-                    Math.round(
-                        pajakPenghasilanPasal21(
+                ].slice(-1)[0] : foundTarif
+            );
+
+            const
+                pajakJanNov = Math.round(gajiGross * foundTarif.tarifPajak),
+                pajakDes = Math.round(
+                    pajakPenghasilanPasal21(
+                        Math.max(
+                            0,
                             gajiGross * 12 
                             - penghasilanTidakKenaPajak[
                                 form.elements.statusKawinTanggungan.value
                             ]
                         )
-                        - pajakJanNov * 11
                     )
+                    - pajakJanNov * 11
                 ),
                 gajiNettJanNov = gajiGross - pajakJanNov,
                 gajiNettDes = gajiGross - pajakDes;
@@ -347,13 +355,24 @@ project root for license information. -->
                 (elem) =>
                     elem.textContent = `Rp${pajakJanNov.toLocaleString(LOCALE_STRING)}`
             );
-            pajakDesCol.textContent = `Rp${pajakDes.toLocaleString(LOCALE_STRING)}`;
+            pajakDesCol.innerHTML = (
+                pajakDes >= 0 ?
+                `Rp${pajakDes.toLocaleString(LOCALE_STRING)}` :
+                `
+                <button type="button" class="text-danger fw-bold btn position-relative">
+                    -Rp${Math.abs(pajakDes).toLocaleString(LOCALE_STRING)}
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        Kelebihan Bayar!
+                    </span>
+                </button>
+                `
+            );
 
             gajiNettCols.forEach(
                 (elem) =>
                     elem.textContent = `Rp${gajiNettJanNov.toLocaleString(LOCALE_STRING)}`
             );
-            gajiNettDesCol.textContent = `Rp${gajiNettDes.toLocaleString(LOCALE_STRING)}`;
+            gajiNettDesCol.textContent = `Rp${(pajakDes >= 0 ? gajiNettDes : gajiGross).toLocaleString(LOCALE_STRING)}`;
 
             table.classList.remove('visually-hidden');
 
