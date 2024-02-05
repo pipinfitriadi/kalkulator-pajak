@@ -18,8 +18,8 @@ project root for license information. -->
         <div class="input-group mb-2">
             <span class="input-group-text">Rp</span>
             <div class="form-floating">
-                <input type="number" min="0" step="1" class="form-control" name="gaji" id="gaji" value="0"/>
-                <label for="gaji">Gaji per bulan (<i>gross</i>)</label>
+                <input type="number" min="0" step="1" class="form-control" name="penghasilan" id="penghasilan" value="0"/>
+                <label for="penghasilan">Penghasilan per bulan (<i>bruto</i>)</label>
             </div>
         </div>
         <div class="btn-group d-flex mb-2" role="group">
@@ -29,7 +29,7 @@ project root for license information. -->
             <label class="btn btn-outline-primary" for="biayaPensiun">Biaya Pensiun</label>
         </div>
         <div class="form-floating mb-2">
-            <select class="form-select" name="statusKawinTanggungan" id="statusKawinTanggungan">
+            <select class="form-select text-truncate" name="statusKawinTanggungan" id="statusKawinTanggungan">
                 <optgroup label="Tidak Kawin">
                     <option value="TK-0">Tidak Kawin Tanpa Tanggungan</option>
                     <option value="TK-1">Tidak Kawin Tanggungan 1 orang</option>
@@ -41,6 +41,12 @@ project root for license information. -->
                     <option value="K-1">Kawin Tanggungan 1 orang</option>
                     <option value="K-2">Kawin Tanggungan 2 orang</option>
                     <option value="K-3">Kawin Tanggungan 3 orang</option>
+                </optgroup>
+                <optgroup label="Kawin dengan Penggabungan Penghasilan Istri">
+                    <option value="KI-0">Kawin dengan Penggabungan Penghasilan Istri dan Tanpa Tanggungan</option>
+                    <option value="KI-1">Kawin dengan Penggabungan Penghasilan Istri dan Tanggungan 1 orang</option>
+                    <option value="KI-2">Kawin dengan Penggabungan Penghasilan Istri dan Tanggungan 2 orang</option>
+                    <option value="KI-3">Kawin dengan Penggabungan Penghasilan Istri dan Tanggungan 3 orang</option>
                 </optgroup>
             </select>
             <label for="statusKawinTanggungan">Status Perkawinan dan Jumlah Tanggungan</label>
@@ -58,7 +64,7 @@ project root for license information. -->
             <tr>
                 <th scope="col" class="text-center">Bulan</th>
                 <th scope="col" class="text-center">Pajak</th>
-                <th scope="col" class="text-center">Gaji (<i>nett</i>)</th>
+                <th scope="col" class="text-center">Penghasilan (<i>nett</i>)</th>
             </tr>
         </thead>
         <tbody class="table-group-divider">
@@ -301,11 +307,15 @@ project root for license information. -->
                 'TK-0': kategoriA,
                 'TK-1': kategoriA,
                 'K-0': kategoriA,
+                'KI-0': kategoriA,
                 'TK-2': kategoriB,
                 'TK-3': kategoriB,
                 'K-1': kategoriB,
                 'K-2': kategoriB,
-                'K-3': kategoriC
+                'K-3': kategoriC,
+                'KI-1': kategoriB,
+                'KI-2': kategoriB,
+                'KI-3': kategoriC
             },
             penghasilanTidakKenaPajak = {
                 'TK-0': 54000000,
@@ -315,23 +325,27 @@ project root for license information. -->
                 'K-0': 58500000,
                 'K-1': 63000000,
                 'K-2': 67500000,
-                'K-3': 72000000
+                'K-3': 72000000,
+                'KI-0': 112500000,
+                'KI-1': 117000000,
+                'KI-2': 121500000,
+                'KI-3': 126000000
             },
             pajakCols = document.querySelectorAll('tbody td:nth-child(2)'),
             pajakDesCol = document.querySelector('tfoot th:nth-child(2)'),
-            gajiNettCols = document.querySelectorAll('tbody td:last-child'),
-            gajiNettDesCol = document.querySelector('tfoot th:last-child');
+            penghasilanNettCols = document.querySelectorAll('tbody td:last-child'),
+            penghasilanNettDesCol = document.querySelector('tfoot th:last-child');
 
         form.onsubmit = function(event) {
             event.preventDefault();
 
-            const gajiGross = parseInt(form.elements.gaji.value);
+            const penghasilanBruto = parseInt(form.elements.penghasilan.value);
 
             let foundTarif = kategoriTarifEfektifBulanan[
                 form.elements.statusKawinTanggungan.value
             ].find(
                 (elem) =>
-                    elem.penghasilanBrutoBulanan >= gajiGross
+                    elem.penghasilanBrutoBulanan >= penghasilanBruto
             );
             foundTarif = (
                 foundTarif === undefined ?
@@ -341,21 +355,21 @@ project root for license information. -->
             );
 
             const
-                pajakJanNov = Math.round(gajiGross * foundTarif.tarifPajak),
+                pajakJanNov = Math.round(penghasilanBruto * foundTarif.tarifPajak),
                 pajakDes = Math.round(
                     pajakPenghasilanPasal21(
                         Math.max(
                             0,
-                            gajiGross * 12
+                            penghasilanBruto * 12
                             - Math.min(
                                 6000000,
                                 form.elements.biayaJabatan.checked ? 
-                                gajiGross * 12 * 5/100 : 0
+                                penghasilanBruto * 12 * 5/100 : 0
                             )
                             - Math.min(
                                 2400000,
                                 form.elements.biayaPensiun.checked ? 
-                                gajiGross * 12 * 5/100 : 0
+                                penghasilanBruto * 12 * 5/100 : 0
                             )
                             - penghasilanTidakKenaPajak[
                                 form.elements.statusKawinTanggungan.value
@@ -364,8 +378,8 @@ project root for license information. -->
                     )
                     - pajakJanNov * 11
                 ),
-                gajiNettJanNov = gajiGross - pajakJanNov,
-                gajiNettDes = gajiGross - pajakDes;
+                penghasilanNettJanNov = penghasilanBruto - pajakJanNov,
+                penghasilanNettDes = penghasilanBruto - pajakDes;
 
             pajakCols.forEach(
                 (elem) =>
@@ -384,11 +398,11 @@ project root for license information. -->
                 `
             );
 
-            gajiNettCols.forEach(
+            penghasilanNettCols.forEach(
                 (elem) =>
-                    elem.textContent = `Rp${gajiNettJanNov.toLocaleString(LOCALE_STRING)}`
+                    elem.textContent = `Rp${penghasilanNettJanNov.toLocaleString(LOCALE_STRING)}`
             );
-            gajiNettDesCol.textContent = `Rp${(pajakDes >= 0 ? gajiNettDes : gajiGross).toLocaleString(LOCALE_STRING)}`;
+            penghasilanNettDesCol.textContent = `Rp${(pajakDes >= 0 ? penghasilanNettDes : penghasilanBruto).toLocaleString(LOCALE_STRING)}`;
 
             table.classList.remove('visually-hidden');
 
@@ -401,8 +415,8 @@ project root for license information. -->
             pajakCols.forEach((elem) => elem.textContent = '');
             pajakDesCol.textContent = '';
 
-            gajiNettCols.forEach((elem) => elem.textContent = '');
-            gajiNettDesCol.textContent = '';
+            penghasilanNettCols.forEach((elem) => elem.textContent = '');
+            penghasilanNettDesCol.textContent = '';
 
             return true;
         }
