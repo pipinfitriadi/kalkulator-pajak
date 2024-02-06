@@ -44,7 +44,14 @@ project root for license information. -->
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
-        gtag('config', 'G-DJE4CN0PPC');
+        gtag(
+            'config',
+            'G-DJE4CN0PPC',
+            {
+                cookie_domain: 'pipinfitriadi.github.io',
+                cookie_flags: 'SameSite=None;Secure'
+            }
+        );
     </script>
 </head>
 <body class="p-2">
