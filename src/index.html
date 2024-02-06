@@ -23,7 +23,7 @@ project root for license information. -->
             </div>
         </div>
         <div class="btn-group d-flex mb-2" role="group">
-            <input type="checkbox" class="btn-check" name="biayaJabatan" id="biayaJabatan"/>
+            <input type="checkbox" class="btn-check" name="biayaJabatan" id="biayaJabatan" checked/>
             <label class="btn btn-outline-primary" for="biayaJabatan">Biaya Jabatan</label>
             <input type="checkbox" class="btn-check" name="biayaPensiun" id="biayaPensiun"/>
             <label class="btn btn-outline-primary" for="biayaPensiun">Biaya Pensiun</label>
@@ -168,8 +168,8 @@ project root for license information. -->
           
         const
             LOCALE_STRING = 'id-ID',
-            form = document.getElementsByTagName('form')[0],
-            table = document.getElementsByTagName('table')[0],
+            form = document.querySelector('form'),
+            table = document.querySelector('table'),
             pajakPenghasilanPasal17Ayat1 = [
                 new TarifPajak(60000000, 5/100),
                 new TarifPajak(250000000, 15/100),
